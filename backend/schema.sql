@@ -1,0 +1,12 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE TABLE users (id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), nom VARCHAR(100) NOT NULL, email VARCHAR(150) UNIQUE NOT NULL, mot_de_passe VARCHAR(255) NOT NULL, created_at TIMESTAMP DEFAULT NOW());
+CREATE TABLE boutiques (id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), user_id UUID REFERENCES users(id) ON DELETE CASCADE, nom VARCHAR(150) NOT NULL, logo_url TEXT, devise VARCHAR(10) DEFAULT 'XOF', pays VARCHAR(50) DEFAULT 'CI', created_at TIMESTAMP DEFAULT NOW());
+CREATE TABLE produits (id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), boutique_id UUID REFERENCES boutiques(id) ON DELETE CASCADE, nom VARCHAR(200) NOT NULL, prix DECIMAL(12,2) NOT NULL, stock_total INT DEFAULT 0, stock_alerte INT DEFAULT 5, categorie VARCHAR(100), photos TEXT[], actif BOOLEAN DEFAULT TRUE, created_at TIMESTAMP DEFAULT NOW());
+CREATE TABLE variantes (id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), produit_id UUID REFERENCES produits(id) ON DELETE CASCADE, nom VARCHAR(100) NOT NULL, prix DECIMAL(12,2), stock INT DEFAULT 0);
+CREATE TABLE lives (id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), boutique_id UUID REFERENCES boutiques(id) ON DELETE CASCADE, plateforme VARCHAR(50), url_stream TEXT, debut TIMESTAMP DEFAULT NOW(), fin TIMESTAMP, total_ventes DECIMAL(12,2) DEFAULT 0);
+CREATE TABLE commandes (id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), boutique_id UUID REFERENCES boutiques(id) ON DELETE CASCADE, live_id UUID REFERENCES lives(id), client_nom VARCHAR(150), client_tel VARCHAR(30), statut VARCHAR(30) DEFAULT 'en_attente', total DECIMAL(12,2) DEFAULT 0, mode_paiement VARCHAR(50), zone VARCHAR(100), adresse_livraison TEXT, livreur VARCHAR(100), date TIMESTAMP DEFAULT NOW());
+CREATE TABLE lignes_commande (id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), commande_id UUID REFERENCES commandes(id) ON DELETE CASCADE, produit_id UUID REFERENCES produits(id), variante_id UUID REFERENCES variantes(id), quantite INT NOT NULL, prix_unitaire DECIMAL(12,2) NOT NULL);
+CREATE TABLE transactions (id UUID PRIMARY KEY DEFAULT uuid_generate_v4(), boutique_id UUID REFERENCES boutiques(id) ON DELETE CASCADE, type VARCHAR(20) NOT NULL, montant DECIMAL(12,2) NOT NULL, description TEXT, date TIMESTAMP DEFAULT NOW());
+CREATE INDEX idx_produits_boutique ON produits(boutique_id);
+CREATE INDEX idx_commandes_boutique ON commandes(boutique_id);
+CREATE INDEX idx_commandes_date ON commandes(date);
