@@ -1,0 +1,9 @@
+* text=auto
+*.css text
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.json text
+*.md text
+.gitattributes text

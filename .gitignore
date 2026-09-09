@@ -1,2 +1,13 @@
 node_modules/
+dist/
+.env
+.DS_Store
+/.idea/
+.vscode/
+frontend/dist/
+backend/node_modules/
+headsit-app-dbf344ad/
+mobile/
+mobile/.expo/
+node_modules/
 .env
