@@ -1,23 +1,216 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #f5f5f0;
-  --surface: #ffffff;
-  --border: #e8e8e2;
-  --text: #1a1a18;
-  --muted: #6b6b65;
-  --accent: #1D9E75;
-  --accent-light: #E1F5EE;
-  --accent-dark: #0F6E56;
-  --warn: #BA7517;
-  --warn-light: #FAEEDA;
-  --danger: #993C1D;
-  --danger-light: #FAECE7;
-  --info: #185FA5;
-  --info-light: #E6F1FB;
-  --radius: 10px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
-button { cursor: pointer; font-family: inherit; }
-input, select, textarea { font-family: inherit; }
-a { text-decoration: none; color: inherit; }
+:root {
+  --bg: #fbfbf8;
+  --surface: #ffffff;
+  --border: #eef1ec;
+  --text: #101010;
+  --muted: #6b6b65;
+  --accent: #6aa6a0;
+  --accent-light: #eef8f6;
+  --accent-dark: #3f8a82;
+  --warn: #b77a3f;
+  --warn-light: #faeeda;
+  --danger: #993c1d;
+  --danger-light: #faece7;
+  --info: #185fa5;
+  --info-light: #e6f1fb;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(16, 24, 32, 0.06);
+
+  /* Design tokens supplémentaires */
+  --font-sans:
+    Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --fs-xs: 12px;
+  --fs-sm: 14px;
+  --fs-md: 16px;
+  --fs-lg: 20px;
+  --fs-xl: 28px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --glass: rgba(255, 255, 255, 0.6);
+  --transition-fast: 150ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+body {
+  font-family: var(--font-sans);
+  background: linear-gradient(180deg, var(--bg) 0%, #ffffff 100%);
+  color: var(--text);
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Layout helpers */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+/* Cards / surfaces */
+.surface-card,
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  padding: calc(var(--space-4) + 4px);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  transition: all var(--transition-fast);
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(0);
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(106, 166, 160, 0.15);
+  border-radius: var(--radius-lg);
+  padding: 10px 16px;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.98);
+}
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+/* Form elements */
+input,
+textarea,
+select {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  font-size: var(--fs-sm);
+}
+label {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+/* Typography */
+.h1 {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+}
+.h2 {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+}
+.muted {
+  color: var(--muted);
+}
+
+/* Nav link utility (uses Layout styles) */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  transition: all var(--transition-fast);
+  color: var(--muted);
+}
+.nav-link.active {
+  color: var(--accent);
+  background: var(--accent-light);
+  font-weight: 600;
+}
+
+/* Responsive grid helpers */
+.grid {
+  display: grid;
+  gap: var(--space-3);
+}
+@media (min-width: 900px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .grid-cols-2 {
+    grid-template-columns: 1fr 340px;
+  }
+}
+
+/* Small utilities */
+.text-right {
+  text-align: right;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Accessibility */
+:focus {
+  outline: 3px solid rgba(29, 158, 117, 0.12);
+  outline-offset: 2px;
+}
+
+/* Surface table default */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.table th {
+  text-align: left;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  font-weight: 600;
+  padding: 10px 16px;
+}
+.table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+}
